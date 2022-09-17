@@ -16,9 +16,9 @@ public class GameSelector{
     protected ArrayList<Game> games;
     public final String[] P1GAMES = {"Trivia"};
     public final String[] P2GAMES = {"Rock, Paper, Scissors", "Trivia"};
-    protected String[] gameNames;
-    protected int[] scores;
-    protected ArrayList<String> pNames;
+    public static String[] gameNames;
+    public static int[] scores;
+    public static ArrayList<String> pNames;
 
     /*
     constructor
@@ -47,17 +47,15 @@ public class GameSelector{
             gameNames = P1GAMES;
         }else if (pNames.size() == 2){
             games.add(new Trivia());
-            games.add(new rockPaperScissors());
+            games.add(new Rock(pNames.get(0), pNames.get(1)));
             gameNames = P2GAMES;
         }else{
             gameNames = new String[1];
         }
     }
 
-    public void play(){
-       selectGame();
-    }
-    private void selectGame(){
+
+    public static void selectGame(){
         //initialize frames and panels
         JFrame frame = new JFrame("Pick a Game");
         JPanel scorePanel = new JPanel();
@@ -116,12 +114,15 @@ public class GameSelector{
         cont.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                //find out which game was picked
-                //play the game and update score
-                frame.dispose();
+                String selected = String.valueOf(gameList.getSelectedItem());
+                if (selected.equals("Rock, Paper, Scissors")){
+                    frame.dispose();
+                    Rock r = new Rock(pNames.get(0), pNames.get(1));
+                    r.play();
+                }
 
 
-                //TEMPORARY TEMPORARY TEMPORARY
-                playMore(1);
+
             }
         });
         if(pNames.size() > 1){
@@ -136,7 +137,7 @@ public class GameSelector{
         frame.setVisible(true);
     }
 
-    private void playMore(int pWinner){
+    public static void playMore(int pWinner){
         //update score
         boolean playing = false;
         scores[pWinner - 1]++;
@@ -152,7 +153,7 @@ public class GameSelector{
         bigC.gridy = 0;
         //game over! image :)
         try {
-            BufferedImage myPicture = ImageIO.read(new File("../gameover.png"));
+            BufferedImage myPicture = ImageIO.read(new File("C:\\Users\\alcar\\OneDrive\\Desktop\\CS180\\TripleAGames\\gameover.png"));
             Image scaledImage = myPicture.getScaledInstance(200,200,Image.SCALE_SMOOTH);
             JLabel gameOver = new JLabel(new ImageIcon(scaledImage));
             bigP.add(gameOver, bigC);
@@ -250,8 +251,7 @@ public class GameSelector{
     }
 
 
-    private void displayWinner(){
-
+    public static void displayWinner(){
         if(pNames.size() == 1){
             JOptionPane.showMessageDialog(null, "Good Game! Your Score was: " + scores[0]);
         }else{
@@ -287,3 +287,4 @@ public class GameSelector{
 
     }
 
+}
