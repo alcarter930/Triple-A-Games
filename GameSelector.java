@@ -43,10 +43,10 @@ public class GameSelector{
     private void initializeGames(){
         games = new ArrayList<Game>();
         if (pNames.size() == 1){
-            games.add( new Trivia());
+            //games.add( new Trivia());
             gameNames = P1GAMES;
         }else if (pNames.size() == 2){
-            games.add(new Trivia());
+            //games.add(new Trivia());
             games.add(new Rock(pNames.get(0), pNames.get(1)));
             gameNames = P2GAMES;
         }else{
