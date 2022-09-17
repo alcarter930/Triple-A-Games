@@ -3,13 +3,16 @@
 *
 *
 */
-
+import java.util.ArrayList;
 public class RunGame {
  
   public static void main(String[] args){
      int numPlayers; //number of players
-     numPlayers = 
-    
+     ArrayList<String> playerNames;
+     PlayerSelector p = new PlayerSelector();
+     p.testFrame();
+     playerNames = p.getMyNames();
+     numPlayers = p.getPlayerNum();
     
   }
   
