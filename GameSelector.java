@@ -13,9 +13,7 @@ public class GameSelector{
   public GameSelector(ArrayList<String> names){
 
     scores = new int[names.size()];
-    for(int i = 0; i<scores.length; i++){
-      scores[i] = 0;
-    }
+    Arrays.fill(scores, 0);
   }
   /*
   constructor
