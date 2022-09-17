@@ -11,8 +11,6 @@ public class RunGame {
      ArrayList<String> playerNames;
      PlayerSelector p = new PlayerSelector();
      p.testFrame();
-     playerNames = p.getMyNames();
-     numPlayers = p.getPlayerNum();
     
   }
   
