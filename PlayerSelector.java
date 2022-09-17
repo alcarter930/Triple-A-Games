@@ -44,7 +44,6 @@ public class PlayerSelector {
         c.weightx = 1.0;
         c.weighty = 1.0;
         //adding labels
-        c.fill = GridBagConstraints.BOTH;
         c.gridwidth = GridBagConstraints.REMAINDER;
         myPanel.add(welcomeLabel, c);
         myPanel.add(selectPlayers, c);
@@ -154,7 +153,7 @@ public class PlayerSelector {
 
             //Game Loop. Begins the cycle.
             GameSelector gaming = new GameSelector(myNames);
-            gaming.play();
+            GameSelector.selectGame();
         }
     }
 
