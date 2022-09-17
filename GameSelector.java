@@ -113,7 +113,7 @@ public class GameSelector{
             public void actionPerformed(ActionEvent e) {
                //find out which game was picked
                 //play the game and update score
-                playMore();
+                frame.dispose();
             }
         });
         if(pNames.size() > 1){
@@ -128,9 +128,11 @@ public class GameSelector{
         frame.setVisible(true);
     }
 
-    private void playMore(){
+    private void playMore(int pWinner){
         //ask to play more or not
         boolean playing = false;
+        
+        scores[pWinner-1]++;
 
         if(playing){
             selectGame();
