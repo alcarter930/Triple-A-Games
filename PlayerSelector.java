@@ -7,12 +7,16 @@ import java.util.ArrayList;
 public class PlayerSelector {
    protected int myPlayerNum; //number of players playing
     protected ArrayList<String> myNames; //names of all of the players
-    protected JFrame myFrame; //frame for the game
+    protected ArrayList<JTextField> names; //list of the text fields for names
+    protected JFrame myFrame, nameFrame; //frame for the game
     protected JPanel myPanel; //one panel
     protected JLabel welcomeLabel, selectPlayers;
     protected JButton oneP,twoP,threeP; //buttons to indicate # of players
 
     public PlayerSelector() {
+        //initializing arrayList
+        names = new ArrayList<JTextField>();
+        myNames = new ArrayList<String>();
         //initializing frame
         myFrame = new JFrame("Player Selector");
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -59,15 +63,93 @@ public class PlayerSelector {
 
         myFrame.add(myPanel);
 
+
+//
+        oneP.addActionListener(new OnePListener());
+        twoP.addActionListener(new TwoPListener());
+
     }
-    
+
     public void testFrame() {
         myFrame.setSize(300,300);
         myFrame.pack();
         myFrame.setVisible(true);
     }
- 
-  
-  
+
+    //creating an action listener for the one player button
+    public class OnePListener implements ActionListener{
+        public void actionPerformed(ActionEvent e){
+            myPlayerNum = 1;
+            getNames();
+        }
+
+    }
+
+    public class TwoPListener implements ActionListener{
+        public void actionPerformed(ActionEvent e){
+            myPlayerNum = 2;
+            getNames();
+        }
+    }
+
+    public void getNames(){
+        JLabel label;
+        JTextField nameField;
+        //closing current window
+        myFrame.dispose();
+
+        //creating new window!
+        nameFrame = new JFrame("Name Time!");
+        //new panel! with layout :)
+        final JPanel panel = new JPanel();
+        panel.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        c.gridwidth = 1;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.insets = new Insets(10, 10, 10, 10);
+
+        for(int i = 0; i < myPlayerNum; i++){
+            c.gridx = 0;
+            c.gridy = i;
+            label = new JLabel("Player " + (i+1) + ", What's your name?");
+            panel.add(label, c);
+            nameField = new JTextField();
+            c.gridx = 1;
+            panel.add(nameField, c);
+            names.add(nameField);
+
+        }
+        //adding submit button! yay!
+        JButton button = new JButton("Submit");
+        c.gridy = myPlayerNum;
+        panel.add(button, c);
+
+        button.addActionListener(new SubmitListener());
+
+
+
+        nameFrame.add(panel);
+        nameFrame.pack();
+        nameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        nameFrame.setSize(300, 300);
+        nameFrame.setVisible(true);
+
+    }
+
+    public class SubmitListener implements ActionListener {
+        public void actionPerformed(ActionEvent e){
+            for(JTextField j: names){
+                myNames.add(j.getText());
+            }
+            nameFrame.dispose();
+        }
+    }
+
+    public ArrayList<String> getMyNames(){
+        return myNames;
+    }
+    public int getPlayerNum(){
+        return myPlayerNum;
+    }
   
 }
