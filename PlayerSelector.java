@@ -5,7 +5,7 @@ import javax.swing.border.EmptyBorder;
 import java.util.ArrayList;
 
 public class PlayerSelector {
-   protected int myPlayerNum; //number of players playing
+    protected int myPlayerNum; //number of players playing
     protected ArrayList<String> myNames; //names of all of the players
     protected ArrayList<JTextField> names; //list of the text fields for names
     protected JFrame myFrame, nameFrame; //frame for the game
@@ -64,7 +64,6 @@ public class PlayerSelector {
         myFrame.add(myPanel);
 
 
-//
         oneP.addActionListener(new OnePListener());
         twoP.addActionListener(new TwoPListener());
 
@@ -107,17 +106,27 @@ public class PlayerSelector {
         c.gridwidth = 1;
         c.fill = GridBagConstraints.HORIZONTAL;
         c.insets = new Insets(10, 10, 10, 10);
+        if(myPlayerNum>1){
+            for(int i = 0; i < myPlayerNum; i++){
+                c.gridx = 0;
+                c.gridy = i;
+                label = new JLabel("Player " + (i+1) + ", What's your name?");
+                panel.add(label, c);
+                nameField = new JTextField();
+                c.gridx = 1;
+                panel.add(nameField, c);
+                names.add(nameField);
 
-        for(int i = 0; i < myPlayerNum; i++){
+            }
+        } else{
             c.gridx = 0;
-            c.gridy = i;
-            label = new JLabel("Player " + (i+1) + ", What's your name?");
-            panel.add(label, c);
+            c.gridy = 0;
+            label = new JLabel("What's your name?");
+            panel.add(label,c);
             nameField = new JTextField();
             c.gridx = 1;
             panel.add(nameField, c);
             names.add(nameField);
-
         }
         //adding submit button! yay!
         JButton button = new JButton("Submit");
@@ -142,6 +151,10 @@ public class PlayerSelector {
                 myNames.add(j.getText());
             }
             nameFrame.dispose();
+
+            //Game Loop. Begins the cycle.
+            GameSelector gaming = new GameSelector(myNames);
+            gaming.play();
         }
     }
 
@@ -151,5 +164,4 @@ public class PlayerSelector {
     public int getPlayerNum(){
         return myPlayerNum;
     }
-  
 }
