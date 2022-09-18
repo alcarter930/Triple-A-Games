@@ -15,7 +15,7 @@ public class GameSelector{
     private String[] P1Games, P2Games;
     protected ArrayList<Game> games;
     public final String[] P1GAMES = {"Trivia"};
-    public final String[] P2GAMES = {"Rock, Paper, Scissors", "Trivia"};
+    public final String[] P2GAMES = {"Rock, Paper, Scissors", "Tic-Tac-Toe"};
     public static String[] gameNames;
     public static int[] scores;
     public static ArrayList<String> pNames;
@@ -43,11 +43,8 @@ public class GameSelector{
     private void initializeGames(){
         games = new ArrayList<Game>();
         if (pNames.size() == 1){
-            //games.add( new Trivia());
             gameNames = P1GAMES;
         }else if (pNames.size() == 2){
-            //games.add(new Trivia());
-            games.add(new Rock(pNames.get(0), pNames.get(1)));
             gameNames = P2GAMES;
         }else{
             gameNames = new String[1];
@@ -119,6 +116,10 @@ public class GameSelector{
                     frame.dispose();
                     Rock r = new Rock(pNames.get(0), pNames.get(1));
                     r.play();
+                }else if(selected.equals("Tic-Tac-Toe")){
+                    frame.dispose();
+                    TicTacToe t = new TicTacToe(pNames);
+                    t.play();
                 }
 
 
