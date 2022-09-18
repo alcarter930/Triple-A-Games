@@ -162,7 +162,7 @@ public class GameSelector{
         bigC.gridy = 0;
         //game over! image :)
         try {
-            BufferedImage myPicture = ImageIO.read(new File("C:\\Users\\alcar\\OneDrive\\Desktop\\CS180\\TripleAGames\\gameover.png"));
+            BufferedImage myPicture = ImageIO.read(new File("../gameover.png"));
             Image scaledImage = myPicture.getScaledInstance(200,200,Image.SCALE_SMOOTH);
             JLabel gameOver = new JLabel(new ImageIcon(scaledImage));
             bigP.add(gameOver, bigC);
