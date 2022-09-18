@@ -74,15 +74,25 @@ public class Rock implements Game{
                 if (rockButton.isSelected()) {
                     playerChoice = "rock";
                     frame2.dispose();
-                    turn2();
+                    if(player2.equals("Computer")){
+                        compTurn2();
+                    }else{
+                    turn2();}
+
                 } else if (scissorsButton.isSelected()) {
                     playerChoice = "scissors";
                     frame2.dispose();
-                    turn2();
+                    if(player2.equals("Computer")){
+                        compTurn2();
+                    }else{
+                    turn2();}
                 } else if (paperButton.isSelected()) {
                     playerChoice = "paper";
                     frame2.dispose();
-                    turn2();
+                    if(player2.equals("Computer")){
+                        compTurn2();
+                    }else{
+                    turn2();}
                 } else {
                     JOptionPane.showMessageDialog(null, "Please select an option!");
                 }
@@ -188,6 +198,7 @@ public class Rock implements Game{
     }
 
     public void win(String winner){
+        JOptionPane.showMessageDialog(null, player1 + " chose " + playerChoice + "\n" + player2 + " chose " + playerChoice2);
 
         if(winner.equals(player1)){
             GameSelector.playMore(1);
@@ -207,5 +218,16 @@ public class Rock implements Game{
             playerChoice2 = "";
             play();
         }
+    }
+    public void compTurn2(){
+        int choice = (int)(Math.random()*(3-1+1))+1;
+        if(choice == 1){
+            playerChoice2 = "rock";
+        }else if (choice == 2){
+            playerChoice2 = "scissors";
+        }else{
+            playerChoice2 = "paper";
+        }
+        getWinner();
     }
 }
