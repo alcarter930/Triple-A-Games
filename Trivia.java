@@ -1,4 +1,3 @@
-import java.util.Scanner;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -13,10 +12,15 @@ import java.io.File;
 
 public class Trivia {
 
-    public Trivia() {
-    }
+    public Trivia() {}
 
-    String[] movieQuestions = {
+    private static JButton moviesButton = new JButton("Movies");
+    private static JButton gamesButton = new JButton("Games");
+
+    int movieScore;
+    int gameScore;
+
+    static String[] movieQuestions = {
             "Which of these films is Christopher Nolan’s highest-grossing film?",
             "Who is Draco Malfoy’s actor in the Harry Potter film series?",
             "Who directed the film 'Harry Potter and the Prisoner of Azkaban'?",
@@ -47,7 +51,7 @@ public class Trivia {
             "Who is the youngest winner of the Oscar for Best Actor award?"
     };
 
-    String[][] movieChoices = {
+    static String[][] movieChoices = {
             {"The Dark Knight", "Memento", "Interstellar", "The Dark Knight Rises"},
             {"Warwick Davis", "Brendan Gleeson", "Tom Felton", "Jason Isaacs"},
             {"David Yates", "Francis Ford Coppola", "Chris Columbus", "Alfonso Cuarón"},
@@ -77,7 +81,7 @@ public class Trivia {
             {"Eddie Redmayne", "Adam Driver", "Adrien Brody", "Jamie Foxx"}
     };
 
-    char[] movieAnswers = {
+    static char[] movieAnswers = {
             'D',
             'C',
             'D',
@@ -105,7 +109,7 @@ public class Trivia {
             'C'
     };
 
-    String[] gamesQuestions = {
+    static String[] gamesQuestions = {
             "When was the first 'Super Mario Bros.' game released?",
             "Which of these Pac-Man ghosts is the color red?",
             "What is the least successful home Nintendo console?",
@@ -133,7 +137,7 @@ public class Trivia {
             "When was the Sega Dreamcast released in America?"
     };
 
-    String[][] gamesChoices = {
+    static String[][] gamesChoices = {
             {"1980", "1982", "1985", "1988"},
             {"Inky", "Blinky", "Pinky", "Clyde"},
             {"Nintendo 64", "Wii", "GameCube", "Wii U"},
@@ -161,7 +165,7 @@ public class Trivia {
             {"1999", "2000", "2001", "2002"},
     };
 
-    char[] gamesAnswers = {
+    static char[] gamesAnswers = {
             'C',
             'B',
             'D',
@@ -192,6 +196,9 @@ public class Trivia {
 
     public static void Trivia() {
 
+        moviesButton = new JButton("Movies");
+        gamesButton = new JButton("Games");
+
         boolean playingMovies = false;
         boolean playingGames = false;
 
@@ -199,8 +206,6 @@ public class Trivia {
 
         JFrame f = new JFrame("Trivia");
         JLabel l = new JLabel("Please choose a Trivia category: ");
-        JButton moviesButton = new JButton("Movies");
-        JButton gamesButton = new JButton("Games");
         ButtonGroup group = new ButtonGroup();
         group.add(moviesButton);
         group.add(gamesButton);
@@ -226,10 +231,55 @@ public class Trivia {
         if (moviesButton.isSelected()) {
             playerChoice = "movies";
             f.dispose();
-
         } else if (gamesButton.isSelected()) {
             playerChoice = "games";
             f.dispose();
         }
-    }
-}
+
+        moviesButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                for (int i = 0; i < 24; i++) {
+                    JFrame f2 = new JFrame("Trivia");
+                    JLabel li = new JLabel(movieQuestions[i]);
+                    JRadioButton choiceA = new JRadioButton(movieChoices[i][0]);
+                    JRadioButton choiceB = new JRadioButton(movieChoices[i][1]);
+                    JRadioButton choiceC = new JRadioButton(movieChoices[i][2]);
+                    JRadioButton choiceD = new JRadioButton(movieChoices[i][3]);
+                    ButtonGroup group = new ButtonGroup();
+                    group.add(choiceA);
+                    group.add(choiceB);
+                    group.add(choiceC);
+                    group.add(choiceD);
+                    li.setBounds(1050, 300, 400, 100);
+                    JPanel pi = new JPanel();
+                    pi.setSize(3400, 3400);
+                    pi.setLayout(new GridBagLayout());
+                    GridBagConstraints c2 = new GridBagConstraints();
+
+                    pi.add(li);
+                    c2.gridy += 10;
+                    pi.add(choiceA, c2);
+                    c2.gridy++;
+                    pi.add(choiceB, c2);
+                    c2.gridy++;
+                    pi.add(choiceC, c2);
+                    c2.gridy++;
+                    pi.add(choiceD, c2);
+                    f2.add(pi);
+                    f2.setSize(800, 800);
+                    f2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    f2.setVisible(true);
+
+                    if()
+                }
+            }
+        });
+
+        }
+
+
+
+
+
+
+        }
