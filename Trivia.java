@@ -279,7 +279,7 @@ public class Trivia {
                 submit.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         String s;
-                        if(movieAnswers[qNum] == 'A'){
+                        if(gameAnswers[qNum] == 'A'){
                             if(choiceA.isSelected()){
                                 s = "Nice Job! Correct Answer!";
                                 if(turnNum%2 == 0){
@@ -291,7 +291,7 @@ public class Trivia {
                             }else{
                                 s = "Sorry, not quite right. Maybe next time!";
                             }
-                        }else if (movieAnswers[qNum] == 'B'){
+                        }else if (gameAnswers[qNum] == 'B'){
                             if(choiceB.isSelected()){
                                 s = "Nice Job! Correct Answer!";
                                 if(turnNum%2 == 0){
@@ -302,7 +302,7 @@ public class Trivia {
                             }else{
                                 s = "Sorry, not quite right. Maybe next time!";
                             }
-                        }else if (movieAnswers[qNum] == 'C'){
+                        }else if (gameAnswers[qNum] == 'C'){
                             if(choiceC.isSelected()){
                                 s = "Nice Job! Correct Answer!";
                                 if(turnNum%2 == 0){
