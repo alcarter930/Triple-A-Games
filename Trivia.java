@@ -11,7 +11,10 @@ import java.awt.image.*;
 import javax.imageio.*;
 import java.io.File;
 
-public class Trivia implements ActionListener {
+public class Trivia {
+
+    public Trivia() {
+    }
 
     String[] movieQuestions = {
             "Which of these films is Christopher Nolan’s highest-grossing film?",
@@ -187,35 +190,46 @@ public class Trivia implements ActionListener {
     };
 
 
-    public void Trivia() {
+    public static void Trivia() {
 
-        Scanner in = new Scanner(System.in);
         boolean playingMovies = false;
         boolean playingGames = false;
 
+        String playerChoice = "";
+
         JFrame f = new JFrame("Trivia");
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        final JLabel l = new JLabel("Please choose a Trivia category: ");
+        JLabel l = new JLabel("Please choose a Trivia category: ");
+        JButton moviesButton = new JButton("Movies");
+        JButton gamesButton = new JButton("Games");
+        ButtonGroup group = new ButtonGroup();
+        group.add(moviesButton);
+        group.add(gamesButton);
         l.setBounds(1050, 300, 400, 100);
         JPanel p = new JPanel();
         p.setSize(2100, 2100);
-        JButton moviesButton = new JButton("Movies");
-        JButton gamesButton = new JButton("Games");
+        p.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+
         moviesButton.setBounds(700, 1050, 500, 100);
         gamesButton.setBounds(1400, 1050, 500, 100);
 
+        p.add(l);
+        c.gridy++;
         p.add(moviesButton);
+        c.gridx++;
         p.add(gamesButton);
         f.add(p);
+        f.setSize(500, 500);
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        f.setVisible(true);
 
-    }
+        if (moviesButton.isSelected()) {
+            playerChoice = "movies";
+            f.dispose();
 
-    public void nextQuestion() {
-
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
+        } else if (gamesButton.isSelected()) {
+            playerChoice = "games";
+            f.dispose();
+        }
     }
 }
