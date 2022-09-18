@@ -146,8 +146,11 @@ public class PlayerSelector {
 
     public class SubmitListener implements ActionListener {
         public void actionPerformed(ActionEvent e){
-            for(JTextField j: names){
+            for(JTextField j: names) {
                 myNames.add(j.getText());
+            }
+            if(myNames.size() == 1){
+                myNames.add("Computer");
             }
             nameFrame.dispose();
 
