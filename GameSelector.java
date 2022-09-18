@@ -15,7 +15,7 @@ public class GameSelector{
     private String[] P1Games, P2Games;
     protected ArrayList<Game> games;
     public final String[] P1GAMES = {"Trivia"};
-    public final String[] P2GAMES = {"Rock, Paper, Scissors", "Tic-Tac-Toe"};
+    public final String[] P2GAMES = {"Rock, Paper, Scissors", "Tic-Tac-Toe", "Trivia"};
     public static String[] gameNames;
     public static int[] scores;
     public static ArrayList<String> pNames;
@@ -101,6 +101,7 @@ public class GameSelector{
 
         //drop-down list
         JComboBox gameList = new JComboBox(gameNames);
+
         c.gridx = 1;
         selectionPanel.add(gameList, c);
 
@@ -108,6 +109,9 @@ public class GameSelector{
         JButton cont = new JButton("I choose... this one!");
         c.gridx = 2;
         selectionPanel.add(cont, c);
+        c.gridx = 0;
+        c.gridy++;
+
         cont.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                //find out which game was picked
@@ -120,6 +124,10 @@ public class GameSelector{
                     frame.dispose();
                     TicTacToe t = new TicTacToe(pNames);
                     t.play();
+                }else if(selected.equals("Trivia")){
+                    frame.dispose();
+                    Trivia triv = new Trivia();
+                    triv.play();
                 }
 
 
@@ -154,7 +162,7 @@ public class GameSelector{
         bigC.gridy = 0;
         //game over! image :)
         try {
-            BufferedImage myPicture = ImageIO.read(new File("../gameover.png"));
+            BufferedImage myPicture = ImageIO.read(new File("C:\\Users\\alcar\\OneDrive\\Desktop\\CS180\\TripleAGames\\gameover.png"));
             Image scaledImage = myPicture.getScaledInstance(200,200,Image.SCALE_SMOOTH);
             JLabel gameOver = new JLabel(new ImageIcon(scaledImage));
             bigP.add(gameOver, bigC);
@@ -251,6 +259,120 @@ public class GameSelector{
         frame.setVisible(true);
     }
 
+
+    public static void winMany(int a, int b){
+        scores[0]+=a;
+        scores[1]+=b;
+        //literally just playMore method
+        //ask to play more or not
+        JFrame frame = new JFrame("Play Again?");
+        //big panel
+        JPanel bigP = new JPanel();
+        bigP.setLayout(new GridBagLayout());
+        GridBagConstraints bigC = new GridBagConstraints();
+
+        bigC.insets = new Insets(10,0, 10, 0);
+        bigC.gridx = 0;
+        bigC.gridy = 0;
+        //game over! image :)
+        try {
+            BufferedImage myPicture = ImageIO.read(new File("..\gameover.png"));
+            Image scaledImage = myPicture.getScaledInstance(200,200,Image.SCALE_SMOOTH);
+            JLabel gameOver = new JLabel(new ImageIcon(scaledImage));
+            bigP.add(gameOver, bigC);
+            bigC.gridy++;
+        }catch (Exception e){
+            System.out.println(e);
+            JLabel gameOver = new JLabel("Game Over");
+            gameOver.setFont(new Font("Futura", Font.PLAIN, 20));
+            bigP.add(gameOver, bigC);
+            bigC.gridy++;
+
+        }
+        //text below
+        JLabel funLabel = new JLabel("Wow! That was fun!");
+        funLabel.setFont(new Font("Serif", Font.PLAIN, 15));
+        bigP.add(funLabel, bigC);
+        bigC.gridy++;
+
+        //new scores
+        JPanel scorePanel = new JPanel();
+        scorePanel.setLayout(new GridBagLayout());
+        GridBagConstraints scoreC = new GridBagConstraints();
+        scoreC.fill = GridBagConstraints.BOTH;
+        scoreC.insets = new Insets(10, 10, 10, 10);
+        //if multiplayer
+        if(pNames.size() > 1){
+            scoreC.gridx = 0;
+            scoreC.gridy = 0;
+            scorePanel.add(new JLabel("Scores: "), scoreC);
+            scoreC.gridx++;
+            for(int i = 0; i<pNames.size(); i++){
+                scorePanel.add(new JLabel(pNames.get(i) + ": " + scores[i]), scoreC);
+                scoreC.gridx++;
+            }
+        }else {
+            scorePanel.add(new JLabel("Score: " + scores[0]), scoreC);
+        }
+        //adding to big panel
+        bigP.add(scorePanel, bigC);
+        bigC.gridy++;
+
+        //ask to play again
+        JPanel playAgain = new JPanel();
+        playAgain.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        //constraints
+        c.gridwidth = 2;
+        c.gridx = 0;
+        c.gridy = 0;
+        c.insets = new Insets(10, 10, 10, 10);
+        //question
+        c.fill = GridBagConstraints.CENTER;
+        JLabel playQuest = new JLabel("Play Another Game?");
+        playQuest.setFont(new Font("Serif", Font.PLAIN, 15));
+        playQuest.setHorizontalAlignment(SwingConstants.CENTER);
+        playAgain.add(playQuest, c);
+        c.gridy++;
+        c.gridwidth = 1;
+        c.insets = new Insets(10, 20, 10, 10);
+        //buttons
+        JButton yesButton = new JButton("Yes!");
+        JButton noButton = new JButton("No :(");
+        c.fill = GridBagConstraints.WEST;
+        playAgain.add(yesButton, c);
+        c.gridx++;
+        c.fill = GridBagConstraints.EAST;
+        playAgain.add(noButton, c);
+
+        bigP.add(playAgain, bigC);
+
+        noButton.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+
+                //find max score
+                displayWinner();
+            }
+        });
+        yesButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                //play again!
+                frame.dispose();
+                selectGame();
+            }
+        });
+
+
+
+        frame.add(bigP);
+        frame.pack();
+        frame.setSize(1000, 500);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+
+    }
 
     public static void displayWinner(){
         if(pNames.size() == 1){
