@@ -12,14 +12,23 @@ import java.io.File;
 
 public class Trivia {
 
-    public Trivia() {}
 
-    private static JButton moviesButton = new JButton("Movies");
-    private static JButton gamesButton = new JButton("Games");
 
-    int movieScore;
-    int gameScore;
+    private static JButton moviesButton;
+    private static String playerChoice;
+    private static JButton gamesButton;
 
+    private static int movieScore;
+    private static int movieScore2;
+    private static int gameScore;
+    private static int gameScore2;
+
+    private static int turnNum;
+
+    public Trivia(){
+        moviesButton = new JButton("Movies");
+        gamesButton = new JButton("Games");
+    }
     static String[] movieQuestions = {
             "Which of these films is Christopher Nolan’s highest-grossing film?",
             "Who is Draco Malfoy’s actor in the Harry Potter film series?",
@@ -192,17 +201,23 @@ public class Trivia {
             'B',
             'A'
     };
+    private static JRadioButton choiceA, choiceC, choiceD;
+    private static JRadioButton choiceB;
 
 
-    public static void Trivia() {
+    public void play() {
+        turnNum = 0;
+        movieScore = 0;
+        movieScore2 = 0;
+        gameScore = 0;
+        gameScore2 = 0;
 
-        moviesButton = new JButton("Movies");
-        gamesButton = new JButton("Games");
+
 
         boolean playingMovies = false;
         boolean playingGames = false;
 
-        String playerChoice = "";
+       playerChoice = "";
 
         JFrame f = new JFrame("Trivia");
         JLabel l = new JLabel("Please choose a Trivia category: ");
@@ -228,23 +243,27 @@ public class Trivia {
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setVisible(true);
 
-        if (moviesButton.isSelected()) {
-            playerChoice = "movies";
-            f.dispose();
-        } else if (gamesButton.isSelected()) {
-            playerChoice = "games";
-            f.dispose();
-        }
-
-        moviesButton.addActionListener(new ActionListener() {
+        gamesButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                for (int i = 0; i < 24; i++) {
-                    JFrame f2 = new JFrame("Trivia");
-                    JLabel li = new JLabel(movieQuestions[i]);
-                    JRadioButton choiceA = new JRadioButton(movieChoices[i][0]);
-                    JRadioButton choiceB = new JRadioButton(movieChoices[i][1]);
-                    JRadioButton choiceC = new JRadioButton(movieChoices[i][2]);
-                    JRadioButton choiceD = new JRadioButton(movieChoices[i][3]);
+                JOptionPane.showMessageDialog(null, "Scores: Player 1: " + gameScore + " Player 2: " + gameScore2);
+                playerChoice = "games";
+                f.dispose();
+                JLabel l;
+                System.out.println(turnNum);
+                if((turnNum%2) == 0){
+                    l = new JLabel("Player 1:");
+                }else{
+                    l = new JLabel("Player 2:");
+                }
+                //new button
+                JButton submit = new JButton("Final Answer");
+                    int qNum = (int)(Math.random()*(24+1));
+                    JFrame f2 = new JFrame("Game Trivia");
+                    JLabel li = new JLabel(gamesQuestions[qNum]);
+                    choiceA = new JRadioButton(gamesChoices[qNum][0]);
+                    choiceB = new JRadioButton(gamesChoices[qNum][1]);
+                    choiceC = new JRadioButton(gamesChoices[qNum][2]);
+                    choiceD = new JRadioButton(gamesChoices[qNum][3]);
                     ButtonGroup group = new ButtonGroup();
                     group.add(choiceA);
                     group.add(choiceB);
@@ -256,6 +275,70 @@ public class Trivia {
                     pi.setLayout(new GridBagLayout());
                     GridBagConstraints c2 = new GridBagConstraints();
 
+                    //actionListener for button
+                submit.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        String s;
+                        if(movieAnswers[qNum] == 'A'){
+                            if(choiceA.isSelected()){
+                                s = "Nice Job! Correct Answer!";
+                                if(turnNum%2 == 0){
+                                    gameScore++;
+
+                                }else{
+                                    gameScore2++;
+                                }
+                            }else{
+                                s = "Sorry, not quite right. Maybe next time!";
+                            }
+                        }else if (movieAnswers[qNum] == 'B'){
+                            if(choiceB.isSelected()){
+                                s = "Nice Job! Correct Answer!";
+                                if(turnNum%2 == 0){
+                                    gameScore++;
+                                }else{
+                                    gameScore2++;
+                                }
+                            }else{
+                                s = "Sorry, not quite right. Maybe next time!";
+                            }
+                        }else if (movieAnswers[qNum] == 'C'){
+                            if(choiceC.isSelected()){
+                                s = "Nice Job! Correct Answer!";
+                                if(turnNum%2 == 0){
+                                    gameScore++;
+                                }else{
+                                    gameScore2++;
+                                }
+                            }else{
+                                s = "Sorry, not quite right. Maybe next time!";
+                            }
+                        }else{
+                            if(choiceD.isSelected()){
+                                s = "Nice Job! Correct Answer!";
+                                if(turnNum%2 == 0){
+
+                                    gameScore++;
+                                }else{
+                                    gameScore2++;
+                                }
+                            }else{
+                                s = "Sorry, not quite right. Maybe next time!";
+                            }
+                        }
+                        turnNum++;
+                        if(turnNum == 10){
+                            f2.dispose();
+                            GameSelector.winMany(gameScore, gameScore2);
+                        }else{
+                        JOptionPane.showMessageDialog(null, s);
+                        f2.dispose();
+                        gamesButton.doClick();
+                    }}
+                });
+
+                    pi.add(l);
+                    c2.gridy++;
                     pi.add(li);
                     c2.gridy += 10;
                     pi.add(choiceA, c2);
@@ -265,21 +348,168 @@ public class Trivia {
                     pi.add(choiceC, c2);
                     c2.gridy++;
                     pi.add(choiceD, c2);
+                    c2.gridy++;
+                    pi.add(submit, c2);
                     f2.add(pi);
                     f2.setSize(800, 800);
                     f2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     f2.setVisible(true);
+                if(GameSelector.pNames.get(1).equals("Computer") && turnNum%2 == 1){
+                    int ran = (int)( Math.random() * (4-1+1));
+                    if(ran == 0){
+                        choiceA.setSelected(true);
 
-                    if()
+                    }else if (ran == 1){
+                        choiceB.setSelected(true);
+                    }else if (ran == 2){
+                        choiceC.setSelected(true);
+                    }else{
+                        choiceD.setSelected(true);
+                    }
+                    submit.doClick();
                 }
+
+
             }
         });
+        moviesButton.addActionListener(new ActionListener(){
+        public void actionPerformed(ActionEvent e) {
+            JOptionPane.showMessageDialog(null, "Scores: Player 1: " + movieScore + " Player 2: " + movieScore2);
+            playerChoice = "movies";
+            f.dispose();
+            JLabel l;
+            if((turnNum%2) == 0){
+                l = new JLabel("Player 1:");
+            }else{
+                l = new JLabel("Player 2:");
+            }
+            //new button
+            JButton submit = new JButton("Final Answer");
+            int qNum = (int)(Math.random()*(24+1));
+            JFrame f2 = new JFrame("Movie Trivia");
+            JLabel li = new JLabel(movieQuestions[qNum]);
+            choiceA = new JRadioButton(movieChoices[qNum][0]);
+            choiceB = new JRadioButton(movieChoices[qNum][1]);
+            choiceC = new JRadioButton(movieChoices[qNum][2]);
+            choiceD = new JRadioButton(movieChoices[qNum][3]);
+            ButtonGroup group = new ButtonGroup();
+            group.add(choiceA);
+            group.add(choiceB);
+            group.add(choiceC);
+            group.add(choiceD);
+            li.setBounds(1050, 300, 400, 100);
+            JPanel pi = new JPanel();
+            pi.setSize(3400, 3400);
+            pi.setLayout(new GridBagLayout());
+            GridBagConstraints c2 = new GridBagConstraints();
+
+            //actionListener for button
+            submit.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    String s;
+                    if(movieAnswers[qNum] == 'A'){
+                        if(choiceA.isSelected()){
+                            s = "Nice Job! Correct Answer!";
+                            if(turnNum%2 == 0){
+                                movieScore++;
+
+                            }else{
+                                movieScore2++;
+                            }
+                        }else{
+                            s = "Sorry, not quite right. Maybe next time!";
+                        }
+                    }else if (movieAnswers[qNum] == 'B'){
+                        if(choiceB.isSelected()){
+                            s = "Nice Job! Correct Answer!";
+                            if(turnNum%2 == 0){
+                                movieScore++;
+                            }else{
+                                movieScore2++;
+                            }
+                        }else{
+                            s = "Sorry, not quite right. Maybe next time!";
+                        }
+                    }else if (movieAnswers[qNum] == 'C'){
+                        if(choiceC.isSelected()){
+                            s = "Nice Job! Correct Answer!";
+                            if(turnNum%2 == 0){
+                                movieScore++;
+                            }else{
+                                movieScore2++;
+                            }
+                        }else{
+                            s = "Sorry, not quite right. Maybe next time!";
+                        }
+                    }else{
+                        if(choiceD.isSelected()){
+                            s = "Nice Job! Correct Answer!";
+                            if(turnNum%2 == 0){
+
+                                movieScore++;
+                            }else{
+                                movieScore2++;
+                            }
+                        }else{
+                            s = "Sorry, not quite right. Maybe next time!";
+                        }
+                    }
+
+                    turnNum++;
+                    if(turnNum == 10){
+                        f2.dispose();
+                        GameSelector.winMany(movieScore, movieScore2);
+                    }else{
+                    JOptionPane.showMessageDialog(null, s);
+                    f2.dispose();
+                    moviesButton.doClick();
+                }}
+            });
+
+
+            pi.add(l);
+            c2.gridy++;
+            pi.add(li);
+            c2.gridy += 10;
+            pi.add(choiceA, c2);
+            c2.gridy++;
+            pi.add(choiceB, c2);
+            c2.gridy++;
+            pi.add(choiceC, c2);
+            c2.gridy++;
+            pi.add(choiceD, c2);
+            c2.gridy++;
+            pi.add(submit, c2);
+            f2.add(pi);
+            f2.setSize(800, 800);
+            f2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            f2.setVisible(true);
+            if(GameSelector.pNames.get(1).equals("Computer") && turnNum%2 == 1){
+                int ran = (int)( Math.random() * (4-1+1));
+
+                if(ran == 0){
+                    choiceA.setSelected(true);
+
+                }else if (ran == 1){
+                    choiceB.setSelected(true);
+                }else if (ran == 2){
+                    choiceC.setSelected(true);
+                }else{
+                    choiceD.setSelected(true);
+                }
+                submit.doClick();
+            }
+
+
 
         }
+    });
+
+    }
 
 
 
 
 
 
-        }
+}
